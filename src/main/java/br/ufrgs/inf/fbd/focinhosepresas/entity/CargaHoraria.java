@@ -16,12 +16,11 @@ public class CargaHoraria {
     @Column(name = "id_ch")
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "cpf_funcionario", nullable = false)
     private Funcionario funcionario;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_horario_trab", nullable = false)
     private HorarioTrabalho horarioTrabalho;
-
 }

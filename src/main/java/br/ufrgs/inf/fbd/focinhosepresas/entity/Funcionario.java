@@ -1,6 +1,7 @@
 package br.ufrgs.inf.fbd.focinhosepresas.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "funcionario")
@@ -60,4 +61,5 @@ public class Funcionario {
     public void setFuncao(String funcao) {
         this.funcao = funcao;
     }
+
 }

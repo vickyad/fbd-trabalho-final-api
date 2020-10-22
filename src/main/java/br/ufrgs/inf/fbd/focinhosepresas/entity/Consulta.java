@@ -1,9 +1,8 @@
 package br.ufrgs.inf.fbd.focinhosepresas.entity;
 
 import javax.persistence.*;
-
-import java.sql.Date;
-import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
@@ -26,10 +25,10 @@ public class Consulta {
     private String receita;
 
     @Column(name = "data_cons", nullable = false)
-    private Date data;
+    private LocalDate data;
 
     @Column(name = "hora", nullable = false)
-    private Time hora;
+    private LocalTime hora;
 
     @OneToOne
     @JoinColumn(name = "registro_vet", nullable = false)
@@ -63,19 +62,19 @@ public class Consulta {
         this.receita = receita;
     }
 
-    public Date getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 
-    public Time getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 
-    public void setHora(Time hora) {
+    public void setHora(LocalTime hora) {
         this.hora = hora;
     }
 

@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class PetCliente {
     @Id
     @Column(name = "cpf")
-    String cpf;
+    Long cpf;
 
     @Column(name="nome_p", length = 60, nullable = false)
     String nomePet;
@@ -27,11 +27,14 @@ public class PetCliente {
     @Column(name = "email", length = 80, unique = true, nullable = false)
     String email;
 
-    public String getCpf() {
+    @Column(name = "raca", length = 50)
+    String raca;
+
+    public Long getCpf() {
         return cpf;
     }
 
-    public void setCpf(String cpf) {
+    public void setCpf(Long cpf) {
         this.cpf = cpf;
     }
 
@@ -81,5 +84,13 @@ public class PetCliente {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getRaca() {
+        return raca;
+    }
+
+    public void setRaca(String raca) {
+        this.raca = raca;
     }
 }

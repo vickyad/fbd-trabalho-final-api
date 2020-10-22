@@ -1,7 +1,7 @@
 package br.ufrgs.inf.fbd.focinhosepresas.entity;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "horario_trabalho", uniqueConstraints=
@@ -16,10 +16,10 @@ public class HorarioTrabalho {
     private String diaSemana;
 
     @Column(name = "hora_inicio", nullable = false)
-    private Time horaInicio;
+    private LocalTime horaInicio;
 
     @Column(name = "hora_fim", nullable = false)
-    private Time horaFim;
+    private LocalTime horaFim;
 
     public Long getId() {
         return id;
@@ -37,19 +37,19 @@ public class HorarioTrabalho {
         this.diaSemana = diaSemana;
     }
 
-    public Time getHoraInicio() {
+    public LocalTime getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(Time horaInicio) {
+    public void setHoraInicio(LocalTime horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public Time getHoraFim() {
+    public LocalTime getHoraFim() {
         return horaFim;
     }
 
-    public void setHoraFim(Time horaFim) {
+    public void setHoraFim(LocalTime horaFim) {
         this.horaFim = horaFim;
     }
 }

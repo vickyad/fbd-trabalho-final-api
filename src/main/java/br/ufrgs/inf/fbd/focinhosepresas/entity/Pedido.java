@@ -2,6 +2,7 @@ package br.ufrgs.inf.fbd.focinhosepresas.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.LocalDate;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
@@ -17,7 +18,7 @@ public class Pedido {
     private Long nro;
 
     @Column(name = "data_ped", nullable = false)
-    private Date data;
+    private LocalDate data;
 
     @Column(name="preco_total", nullable = false)
     private Float preco_total;
@@ -34,11 +35,11 @@ public class Pedido {
         this.nro = nro;
     }
 
-    public Date getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 

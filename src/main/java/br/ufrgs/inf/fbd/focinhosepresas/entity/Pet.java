@@ -1,7 +1,7 @@
 package br.ufrgs.inf.fbd.focinhosepresas.entity;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.time.LocalDate;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
@@ -20,7 +20,7 @@ public class Pet {
     private String nome;
 
     @Column(name = "data_nasc", nullable = false)
-    private Date dataNascimento;
+    private LocalDate dataNascimento;
 
     @Column(name="restricoes")
     private String restricoes;
@@ -48,11 +48,11 @@ public class Pet {
         this.nome = nome;
     }
 
-    public Date getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(Date dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 

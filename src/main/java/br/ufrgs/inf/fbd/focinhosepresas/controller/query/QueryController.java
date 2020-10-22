@@ -1,77 +1,95 @@
 package br.ufrgs.inf.fbd.focinhosepresas.controller.query;
 
-import org.springframework.http.HttpStatus;
+import br.ufrgs.inf.fbd.focinhosepresas.entity.Cliente;
+import br.ufrgs.inf.fbd.focinhosepresas.model.AvailableStaff;
+import br.ufrgs.inf.fbd.focinhosepresas.model.ClienteWIthNoDelivers;
+import br.ufrgs.inf.fbd.focinhosepresas.service.QueryService;
+import br.ufrgs.inf.fbd.focinhosepresas.view.TotalGasto;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/query/")
 public class QueryController {
 
+    private final QueryService queryService;
+
+    @Autowired
+    public QueryController(QueryService queryService) {
+        this.queryService = queryService;
+    }
+
     @GetMapping("/pet_info/")
-    public ResponseEntity<String> getPetInfo() {
-        return new ResponseEntity<>("pet_info", HttpStatus.OK);
+    public ResponseEntity<?> getPetInfo(@RequestParam("nomePet") String nomePet, @RequestParam("cpf") Long cpf) {
+        return this.queryService.getPetInfo(nomePet, cpf);
     }
 
     @GetMapping("/client_by_pet/")
-    public ResponseEntity<String> getClientByPet() {
-        return new ResponseEntity<>("client_by_pet", HttpStatus.OK);
+    public ResponseEntity<List<String>> getClientByPet(@RequestParam("nomeEspecie") String nomeEspecie) {
+        return this.queryService.getClientByPet(nomeEspecie);
     }
 
     @GetMapping("/available_staff/")
-    public ResponseEntity<String> getAvailableStaff() {
-        return new ResponseEntity<>("available_staff", HttpStatus.OK);
+    public ResponseEntity<List<AvailableStaff>> getAvailableStaff(@RequestParam("dateTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTime) {
+        return this.queryService.getAvailableStaff(dateTime);
     }
 
     @GetMapping("/clients_with_speding_above_average/")
-    public ResponseEntity<String> getClienteWithSpendingAboveAverage() {
-        return new ResponseEntity<>("clients_with_speding_above_average", HttpStatus.OK);
+    public ResponseEntity<List<TotalGasto>> getClienteWithSpendingAboveAverage() {
+        return this.queryService.getClienteWithSpendingAboveAverage();
     }
 
     @GetMapping("/clients_with_no_delivers/")
-    public ResponseEntity<String> getClientsWithNoDelivers() {
-        return new ResponseEntity<>("clients_with_no_delivers", HttpStatus.OK);
+    public ResponseEntity<List<?>> getClientsWithNoDelivers() {
+        return this.queryService.getClientsWithNoDelivers();
     }
 
     @GetMapping("/pet_appointments_by_client_and_date/")
-    public ResponseEntity<String> getPetAppointmentsByClientAndDate() {
-        return new ResponseEntity<>("pet_appointments_by_client_and_date", HttpStatus.OK);
+    public ResponseEntity<?> getPetAppointmentsByClientAndDate() {
+        return this.queryService.getPetAppointmentsByClientAndDate();
     }
 
     @GetMapping("/total_spent_by_client/")
-    public ResponseEntity<String> getTotalSpentByClient() {
-        return new ResponseEntity<>("total_spent_by_client", HttpStatus.OK);
+    public ResponseEntity<?> getTotalSpentByClient() {
+        return this.queryService.getTotalSpentByClient();
     }
 
     @GetMapping("/order_info/")
-    public ResponseEntity<String> getOrderInfo() {
-        return new ResponseEntity<>("order_info", HttpStatus.OK);
+    public ResponseEntity<?> getOrderInfo() {
+        return  this.queryService.getOrderInfo();
     }
 
     @GetMapping("/deliverman_delivers/")
-    public ResponseEntity<String> getDelivermanDelivers() {
-        return new ResponseEntity<>("deliverman_delivers", HttpStatus.OK);
+    public ResponseEntity<?> getDelivermanDelivers() {
+        return this.queryService.getDelivermanDelivers();
     }
 
     @GetMapping("/appointments_by_date/")
-    public ResponseEntity<String> getAppointmentsByDate() {
-        return new ResponseEntity<>("appointments_by_date", HttpStatus.OK);
+    public ResponseEntity<?> getAppointmentsByDate() {
+        return this.queryService.getAppointmentsByDate();
     }
 
     @GetMapping("/treatments_by_date/")
-    public ResponseEntity<String> getTreatmentsByDate() {
-        return new ResponseEntity<>("treatments_by_date", HttpStatus.OK);
+    public ResponseEntity<?> getTreatmentsByDate() {
+        return this.queryService.getTreatmentsByDate();
     }
 
     @GetMapping("/delivers_not_delivered/")
-    public ResponseEntity<String> getDeliversNotDelivered() {
-        return new ResponseEntity<>("delivers_not_delivered", HttpStatus.OK);
+    public ResponseEntity<?> getDeliversNotDelivered() {
+        return this.queryService.getDeliversNotDelivered();
     }
 
     @GetMapping("/pet_records/")
-    public ResponseEntity<String> getPetRecords() {
-        return new ResponseEntity<>("pet_records", HttpStatus.OK);
+    public ResponseEntity<?> getPetRecords() {
+        return this.queryService.getPetRecords();
     }
 }

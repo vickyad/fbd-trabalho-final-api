@@ -1,8 +1,8 @@
 package br.ufrgs.inf.fbd.focinhosepresas.entity;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
@@ -18,10 +18,10 @@ public class SlotAgenda {
     private Long id;
 
     @Column(name = "data_agenda", nullable = false)
-    private Date data;
+    private LocalDate data;
 
     @Column(name = "hora", nullable = false)
-    private Time hora;
+    private LocalTime hora;
     
     @OneToOne
     @JoinColumn(name = "cpf_funcionario", nullable = false)
@@ -43,19 +43,19 @@ public class SlotAgenda {
         this.id = id;
     }
 
-    public Date getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 
-    public Time getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 
-    public void setHora(Time hora) {
+    public void setHora(LocalTime hora) {
         this.hora = hora;
     }
 
