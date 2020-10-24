@@ -25,8 +25,9 @@ public class Pet {
     @Column(name="restricoes")
     private String restricoes;
 
-    @Column(name="cpf_cliente", nullable = false)
-    private Long cpf_cliente;
+    @OneToOne
+    @JoinColumn(name = "cpf_cliente", nullable = false)
+    private Cliente cliente;
 
     @OneToOne
     @JoinColumn(name = "id_raca", nullable = false)
@@ -64,12 +65,12 @@ public class Pet {
         this.restricoes = restricoes;
     }
 
-    public Long getCpf_cliente() {
-        return cpf_cliente;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setCpf_cliente(Long cpf_cliente) {
-        this.cpf_cliente = cpf_cliente;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public Especie getEspecie() {

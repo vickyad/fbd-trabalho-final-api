@@ -3,6 +3,8 @@ package br.ufrgs.inf.fbd.focinhosepresas.controller.query;
 import br.ufrgs.inf.fbd.focinhosepresas.entity.Cliente;
 import br.ufrgs.inf.fbd.focinhosepresas.model.AvailableStaff;
 import br.ufrgs.inf.fbd.focinhosepresas.model.ClienteWIthNoDelivers;
+import br.ufrgs.inf.fbd.focinhosepresas.model.OrderInfo;
+import br.ufrgs.inf.fbd.focinhosepresas.model.TotalSpentByClient;
 import br.ufrgs.inf.fbd.focinhosepresas.service.QueryService;
 import br.ufrgs.inf.fbd.focinhosepresas.view.TotalGasto;
 
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -54,18 +57,20 @@ public class QueryController {
     }
 
     @GetMapping("/pet_appointments_by_client_and_date/")
-    public ResponseEntity<?> getPetAppointmentsByClientAndDate() {
-        return this.queryService.getPetAppointmentsByClientAndDate();
+    public ResponseEntity<?> getPetAppointmentsByClientAndDate(
+            @RequestParam("cpf") Long cpf,
+            @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return this.queryService.getPetAppointmentsByClientAndDate(cpf, date);
     }
 
     @GetMapping("/total_spent_by_client/")
-    public ResponseEntity<?> getTotalSpentByClient() {
+    public ResponseEntity<List<TotalSpentByClient>> getTotalSpentByClient() {
         return this.queryService.getTotalSpentByClient();
     }
 
     @GetMapping("/order_info/")
-    public ResponseEntity<?> getOrderInfo() {
-        return  this.queryService.getOrderInfo();
+    public ResponseEntity<List<OrderInfo>> getOrderInfo(@RequestParam("nroPedido") Long nroPedido) {
+        return  this.queryService.getOrderInfo(nroPedido);
     }
 
     @GetMapping("/deliverman_delivers/")

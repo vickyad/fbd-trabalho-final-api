@@ -1,13 +1,12 @@
 package br.ufrgs.inf.fbd.focinhosepresas.service;
 
 import br.ufrgs.inf.fbd.focinhosepresas.entity.Funcionario;
+import br.ufrgs.inf.fbd.focinhosepresas.entity.Pedido;
 import br.ufrgs.inf.fbd.focinhosepresas.model.AvailableStaff;
-import br.ufrgs.inf.fbd.focinhosepresas.model.ClienteWIthNoDelivers;
+import br.ufrgs.inf.fbd.focinhosepresas.model.OrderInfo;
 import br.ufrgs.inf.fbd.focinhosepresas.model.PetInfo;
-import br.ufrgs.inf.fbd.focinhosepresas.repository.ClienteWIthNoDeliversRepository;
-import br.ufrgs.inf.fbd.focinhosepresas.repository.FuncionarioRepository;
-import br.ufrgs.inf.fbd.focinhosepresas.repository.PetClienteRepository;
-import br.ufrgs.inf.fbd.focinhosepresas.repository.TotalGastoRepository;
+import br.ufrgs.inf.fbd.focinhosepresas.model.TotalSpentByClient;
+import br.ufrgs.inf.fbd.focinhosepresas.repository.*;
 import br.ufrgs.inf.fbd.focinhosepresas.utils.DateUtils;
 import br.ufrgs.inf.fbd.focinhosepresas.view.PetCliente;
 import br.ufrgs.inf.fbd.focinhosepresas.view.TotalGasto;
@@ -33,26 +32,30 @@ public class QueryService {
 
     private final TotalGastoRepository totalGastoRepository;
 
-    private final ClienteWIthNoDeliversRepository clienteWIthNoDeliversRepository;
+    private final PedidoRepository pedidoRepository;
+    
+    private final ClienteRepository clienteRepository;
 
     @Autowired
     public QueryService(
             PetClienteRepository petClienteRepository,
             FuncionarioRepository funcionarioRepository,
             TotalGastoRepository totalGastoRepository,
-            ClienteWIthNoDeliversRepository clienteWIthNoDeliversRepository
+            PedidoRepository pedidoRepository,
+            ClienteRepository clienteRepository
     ) {
         this.petClienteRepository = petClienteRepository;
         this.funcionarioRepository = funcionarioRepository;
         this.totalGastoRepository = totalGastoRepository;
-        this.clienteWIthNoDeliversRepository = clienteWIthNoDeliversRepository;
+        this.pedidoRepository = pedidoRepository;
+        this.clienteRepository = clienteRepository;
     }
 
     public ResponseEntity<?> getPetInfo(String nomePet, Long cpf) {
         final Optional<PetCliente> petClienteSearch = this.petClienteRepository.getPetInfo(nomePet, cpf);
 
         if (petClienteSearch.isEmpty()) {
-            return new ResponseEntity<>("Nada encontrado", HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>("Nada encontrado.", HttpStatus.NO_CONTENT);
         } else {
             final PetCliente petCliente = petClienteSearch.get();
             final PetInfo petInfo = new PetInfo(petCliente);
@@ -87,21 +90,30 @@ public class QueryService {
     }
 
     public ResponseEntity<List<?>> getClientsWithNoDelivers() {
-        final List<?> clienteList = this.clienteWIthNoDeliversRepository.getClientsWithNoDelivers();
+        final List<?> clienteList = this.clienteRepository.getClientsWithNoDelivers();
 
         return new ResponseEntity<>(clienteList, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> getPetAppointmentsByClientAndDate() {
-        return new ResponseEntity<>("pet_appointments_by_client_and_date", HttpStatus.OK);
+    public ResponseEntity<?> getPetAppointmentsByClientAndDate(Long cpf, LocalDate data) {
+        final Optional<Integer> petAppointments = this.clienteRepository.getPetAppointmentsByClientAndDate(cpf, data);
+    
+        if (petAppointments.isPresent()) {
+            return new ResponseEntity<>(petAppointments.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Nada encontrado.", HttpStatus.NO_CONTENT);
+        }
     }
 
-    public ResponseEntity<?> getTotalSpentByClient() {
-        return new ResponseEntity<>("total_spent_by_client", HttpStatus.OK);
+    public ResponseEntity<List<TotalSpentByClient>> getTotalSpentByClient() {
+        final List<TotalSpentByClient> totalSpentByClientList = this.clienteRepository.getTotalSpentByClients();
+        return new ResponseEntity<>(totalSpentByClientList, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> getOrderInfo() {
-        return new ResponseEntity<>("order_info", HttpStatus.OK);
+    public ResponseEntity<List<OrderInfo>> getOrderInfo(Long nroPed) {
+        final List<OrderInfo> orderList = this.pedidoRepository.getOrderInfo(nroPed);
+
+        return new ResponseEntity<>(orderList, HttpStatus.OK);
     }
 
     public ResponseEntity<?> getDelivermanDelivers() {

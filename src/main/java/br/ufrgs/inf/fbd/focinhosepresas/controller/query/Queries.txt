@@ -1,0 +1,38 @@
+// Repository
+// Service
+// Controller
+
+-- Entregas feitas por um determinado entregador
+--		input: cpf do entregador
+SELECT cod_pedido, status, endereco.rua, endereco.nro, endereco.compl, endereco.cidade FROM entregador
+JOIN funcionario ON entregador.cpf_funcionario = funcionario.cpf
+JOIN envio ON entregador.cnh = envio.cnh
+JOIN endereco ON envio.id_endereco = endereco.id_end
+WHERE envio.status='recebido' AND entregador.cpf_funcionario = '61265454434';
+
+
+-- Consultas realizadas em determinada data
+--		input: data
+SELECT hora, pet.nome, cpf_cliente, funcionario.nome, registro, exame, receita FROM consulta
+JOIN pet ON consulta.id_pet = pet.id_pet
+JOIN veterinario ON consulta.registro_vet = veterinario.registro
+JOIN funcionario ON veterinario.cpf_funcionario = funcionario.cpf
+WHERE data_cons = '2020-07-02';
+
+
+-- Tratamentos realizados em determinada data 
+--		input: data
+SELECT hora, tratamento.nome, pet.nome, cpf_cliente, funcionario.nome, cpf FROM slot_agenda
+JOIN pet ON slot_agenda.id_pet = pet.id_pet
+JOIN funcionario ON slot_agenda.cpf_funcionario = funcionario.cpf
+JOIN tratamento ON slot_agenda.tratamento = tratamento.nome
+WHERE data_agenda = '2020-08-19';
+
+
+-- Histórico de exames e receitas de um determinado pet
+--		input nome pet e cpf do cliente
+SELECT exame, receita, data_cons, hora, funcionario.nome, registro FROM pet
+JOIN consulta ON consulta.id_pet = pet.id_pet
+JOIN veterinario ON consulta.registro_vet = veterinario.registro
+JOIN funcionario ON veterinario.cpf_funcionario = funcionario.cpf
+WHERE pet.nome = 'File' AND cpf_cliente = 85692484404;
