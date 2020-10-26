@@ -1,10 +1,7 @@
 package br.ufrgs.inf.fbd.focinhosepresas.controller.query;
 
-import br.ufrgs.inf.fbd.focinhosepresas.entity.Cliente;
 import br.ufrgs.inf.fbd.focinhosepresas.model.AvailableStaff;
-import br.ufrgs.inf.fbd.focinhosepresas.model.ClienteWIthNoDelivers;
-import br.ufrgs.inf.fbd.focinhosepresas.model.OrderInfo;
-import br.ufrgs.inf.fbd.focinhosepresas.model.TotalSpentByClient;
+import br.ufrgs.inf.fbd.focinhosepresas.query_model.*;
 import br.ufrgs.inf.fbd.focinhosepresas.service.QueryService;
 import br.ufrgs.inf.fbd.focinhosepresas.view.TotalGasto;
 
@@ -74,27 +71,27 @@ public class QueryController {
     }
 
     @GetMapping("/deliverman_delivers/")
-    public ResponseEntity<?> getDelivermanDelivers() {
-        return this.queryService.getDelivermanDelivers();
+    public ResponseEntity<List<DelivermanDelivers>> getDelivermanDelivers(@RequestParam("cpfFuncionario") Long cpfFuncionario) {
+        return this.queryService.getDelivermanDelivers(cpfFuncionario);
     }
 
     @GetMapping("/appointments_by_date/")
-    public ResponseEntity<?> getAppointmentsByDate() {
-        return this.queryService.getAppointmentsByDate();
+    public ResponseEntity<List<AppointmentsByDate>> getAppointmentsByDate(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return this.queryService.getAppointmentsByDate(date);
     }
 
     @GetMapping("/treatments_by_date/")
-    public ResponseEntity<?> getTreatmentsByDate() {
-        return this.queryService.getTreatmentsByDate();
+    public ResponseEntity<List<TreatmentsByDate>> getTreatmentsByDate(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return this.queryService.getTreatmentsByDate(date);
     }
 
     @GetMapping("/delivers_not_delivered/")
-    public ResponseEntity<?> getDeliversNotDelivered() {
+    public ResponseEntity<List<DeliverNotDelivered>> getDeliversNotDelivered() {
         return this.queryService.getDeliversNotDelivered();
     }
 
     @GetMapping("/pet_records/")
-    public ResponseEntity<?> getPetRecords() {
-        return this.queryService.getPetRecords();
+    public ResponseEntity<List<PetRecords>> getPetRecords(@RequestParam("nomePet") String nomePet, @RequestParam("cpf") Long cpf) {
+        return this.queryService.getPetRecords(nomePet, cpf);
     }
 }

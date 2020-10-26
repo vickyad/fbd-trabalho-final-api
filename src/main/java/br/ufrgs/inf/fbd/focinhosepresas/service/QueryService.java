@@ -1,11 +1,10 @@
 package br.ufrgs.inf.fbd.focinhosepresas.service;
 
+import br.ufrgs.inf.fbd.focinhosepresas.entity.Consulta;
 import br.ufrgs.inf.fbd.focinhosepresas.entity.Funcionario;
-import br.ufrgs.inf.fbd.focinhosepresas.entity.Pedido;
 import br.ufrgs.inf.fbd.focinhosepresas.model.AvailableStaff;
-import br.ufrgs.inf.fbd.focinhosepresas.model.OrderInfo;
+import br.ufrgs.inf.fbd.focinhosepresas.query_model.*;
 import br.ufrgs.inf.fbd.focinhosepresas.model.PetInfo;
-import br.ufrgs.inf.fbd.focinhosepresas.model.TotalSpentByClient;
 import br.ufrgs.inf.fbd.focinhosepresas.repository.*;
 import br.ufrgs.inf.fbd.focinhosepresas.utils.DateUtils;
 import br.ufrgs.inf.fbd.focinhosepresas.view.PetCliente;
@@ -36,19 +35,31 @@ public class QueryService {
     
     private final ClienteRepository clienteRepository;
 
+    private final ConsultaRepository consultaRepository;
+
+    private final EnvioRepository envioRepository;
+
+    private final SlotAgendaRepository slotAgendaRepository;
+
     @Autowired
     public QueryService(
             PetClienteRepository petClienteRepository,
             FuncionarioRepository funcionarioRepository,
             TotalGastoRepository totalGastoRepository,
             PedidoRepository pedidoRepository,
-            ClienteRepository clienteRepository
+            ClienteRepository clienteRepository,
+            ConsultaRepository consultaRepository,
+            EnvioRepository envioRepository,
+            SlotAgendaRepository slotAgendaRepository
     ) {
         this.petClienteRepository = petClienteRepository;
         this.funcionarioRepository = funcionarioRepository;
         this.totalGastoRepository = totalGastoRepository;
         this.pedidoRepository = pedidoRepository;
         this.clienteRepository = clienteRepository;
+        this.consultaRepository = consultaRepository;
+        this.envioRepository = envioRepository;
+        this.slotAgendaRepository = slotAgendaRepository;
     }
 
     public ResponseEntity<?> getPetInfo(String nomePet, Long cpf) {
@@ -116,23 +127,30 @@ public class QueryService {
         return new ResponseEntity<>(orderList, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> getDelivermanDelivers() {
-        return new ResponseEntity<>("deliverman_delivers", HttpStatus.OK);
+    public ResponseEntity<List<DelivermanDelivers>> getDelivermanDelivers(Long cpfFuncionario) {
+        final List<DelivermanDelivers> delivermanDeliversList = this.envioRepository.getDelivermanDelivers(cpfFuncionario);
+        return new ResponseEntity<>(delivermanDeliversList, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> getAppointmentsByDate() {
-        return new ResponseEntity<>("appointments_by_date", HttpStatus.OK);
+    public ResponseEntity<List<AppointmentsByDate>> getAppointmentsByDate(LocalDate date) {
+        final List<AppointmentsByDate> appointmentsByDateList = consultaRepository.getAppointmentsByDate(date);
+
+        return new ResponseEntity<>(appointmentsByDateList, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> getTreatmentsByDate() {
-        return new ResponseEntity<>("treatments_by_date", HttpStatus.OK);
+    public ResponseEntity<List<TreatmentsByDate>> getTreatmentsByDate(LocalDate date) {
+        final List<TreatmentsByDate> treatmentsByDateList = this.slotAgendaRepository.getTreatmentsByDate(date);
+        return new ResponseEntity<>(treatmentsByDateList, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> getDeliversNotDelivered() {
-        return new ResponseEntity<>("delivers_not_delivered", HttpStatus.OK);
+    public ResponseEntity<List<DeliverNotDelivered>> getDeliversNotDelivered() {
+        final List<DeliverNotDelivered> deliverNotDeliveredList = this.envioRepository.getDeliversNotDelivered();
+        return new ResponseEntity<>(deliverNotDeliveredList, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> getPetRecords() {
-        return new ResponseEntity<>("pet_records", HttpStatus.OK);
+    public ResponseEntity<List<PetRecords>> getPetRecords(String nomePet, Long cpf) {
+        final List<PetRecords> petRecordList = this.consultaRepository.getPetRecords(nomePet, cpf);
+
+        return new ResponseEntity<>(petRecordList, HttpStatus.OK);
     }
 }

@@ -1,4 +1,4 @@
-package br.ufrgs.inf.fbd.focinhosepresas.model;
+package br.ufrgs.inf.fbd.focinhosepresas.query_model;
 
 import java.time.LocalDate;
 

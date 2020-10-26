@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import br.ufrgs.inf.fbd.focinhosepresas.entity.Cliente;
-import br.ufrgs.inf.fbd.focinhosepresas.model.TotalSpentByClient;
+import br.ufrgs.inf.fbd.focinhosepresas.query_model.TotalSpentByClient;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

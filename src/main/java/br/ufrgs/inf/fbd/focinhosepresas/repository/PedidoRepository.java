@@ -2,7 +2,7 @@ package br.ufrgs.inf.fbd.focinhosepresas.repository;
 
 import java.util.List;
 
-import br.ufrgs.inf.fbd.focinhosepresas.model.OrderInfo;
+import br.ufrgs.inf.fbd.focinhosepresas.query_model.OrderInfo;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
